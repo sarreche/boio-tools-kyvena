@@ -92,6 +92,10 @@ Configuración de prueba sugerida:
 
 El límite global efectivo puede ser inferior y tiene prioridad.
 
+Implementado en fase 2: `INGESTION_DAILY_LIMIT` configura entre 1 y 100 reservas por
+usuario y día UTC; el valor predeterminado es 5. La reserva atómica aplica además los
+límites de cuadernos, fuentes y almacenamiento antes de aceptar una carga.
+
 ## Comportamiento al exceder límites
 
 - Rechazar antes de subir cuando tamaño/tipo sean conocidos.

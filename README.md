@@ -29,6 +29,9 @@ Document ingestion and RAG chat are not implemented yet.
 Never expose a Supabase secret/service-role key or `OPENROUTER_API_KEY` through a
 `NEXT_PUBLIC_` variable.
 
+`INGESTION_DAILY_LIMIT` is server-only, defaults to `5`, and accepts values from 1
+to 100.
+
 ## Verification
 
 ```text

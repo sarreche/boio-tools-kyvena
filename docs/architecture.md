@@ -5,10 +5,11 @@
 Arquitectura de referencia para el MVP, **implementada parcialmente**.
 
 Implementado y verificado: autenticación y aislamiento RLS, cuadernos, esquema y
-Storage privado, y el pipeline completo de texto pegado desde `pending` hasta `ready`
-con normalización, chunking, embeddings OpenRouter y persistencia transaccional en
-`halfvec(2048)`. Pendiente: ingesta de TXT/MD/PDF, recuperación híbrida, chat RAG y
-las capacidades posteriores detalladas en `implementation-plan.md`.
+Storage privado, el pipeline completo de texto pegado y TXT/MD/PDF desde `pending`
+hasta `ready`, extracción de páginas, chunking, embeddings OpenRouter, persistencia
+transaccional en `halfvec(2048)` y gestión completa de la fuente. La aceptación de
+fase 2 requiere todavía completar su matriz visible. Pendientes de producto:
+recuperación híbrida, chat RAG y capacidades posteriores de `implementation-plan.md`.
 
 ## Componentes
 
@@ -55,7 +56,9 @@ Los valores concretos y el comportamiento al excederlos están en `limits.md`.
 
 1. Validar sesión, tamaño, tipo MIME, extensión y pertenencia del cuaderno.
 2. Calcular hash y crear `source` en estado `pending`.
-3. Guardar archivo bajo `{user_id}/{notebook_id}/{source_id}/original`.
+3. Subir desde el navegador al bucket privado bajo
+   `{user_id}/{notebook_id}/{source_id}/original`; el binario no atraviesa la Function
+   porque Vercel limita su request a 4,5 MB y el producto admite archivos de 5 MB.
 4. Crear o reclamar un trabajo idempotente y marcar la fuente `processing`.
 5. Extraer texto y ubicación estructural dentro de la solicitud del backend.
 6. Normalizar sin destruir títulos, listas, páginas o secciones.
@@ -63,6 +66,12 @@ Los valores concretos y el comportamiento al excederlos están en `limits.md`.
 8. Generar embeddings remotos en lotes con timeout y límite de concurrencia.
 9. Insertar chunks y embeddings transaccionalmente.
 10. Marcar la fuente `ready`; ante fallo registrar etapa, código y permitir reintento.
+
+La reserva se serializa mediante un bloqueo transaccional por usuario. En esa misma
+operación se aplican idempotencia, concurrencia, cuota diaria, cantidad de fuentes y
+almacenamiento. Un trabajo sin actividad durante diez minutos pasa a error
+recuperable. Retirar una fuente elimina primero el objeto mediante Storage API y sólo
+después borra la fila; las claves foráneas eliminan texto, trabajos, chunks y vectores.
 
 PDF del MVP significa PDF con capa de texto. Si la extracción no produce contenido
 útil, devolver un error que explique que OCR todavía no está soportado.

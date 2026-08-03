@@ -37,3 +37,15 @@ Proyecto verificado: `boio-tools-kyvena`.
 
 - El propietario confirmó login con una cuenta real, redirección a Home y logout.
 - La Fase 1 cumple su criterio de aceptación.
+
+## Cierre técnico de Fase 2 — 3 de agosto de 2026
+
+- Funciones `security invoker` aplicadas para crear cuadernos, reservar fuentes y
+  reencolar ingestas; ejecución revocada a `public` y `anon`.
+- Prueba transaccional como `authenticated` validó creación, idempotencia, una sola
+  ingesta activa, reintento, reprocesamiento y aislamiento entre dos propietarios.
+- Todas las filas de verificación se revirtieron.
+- Asesor de seguridad: sin hallazgos nuevos. Continúa únicamente la advertencia
+  aceptada de protección de contraseñas filtradas.
+- Asesor de rendimiento: sólo índices todavía sin uso, esperables antes de fase 3.
+- La aceptación visible se registra por separado en `phase-2-verification.md`.
