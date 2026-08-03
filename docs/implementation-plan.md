@@ -32,29 +32,49 @@ propietario completó además el smoke test visible de login → Home → logout
 
 Criterio: un usuario autenticado entra a Home y otro usuario no puede ver sus datos.
 
-## Fase 2 — Cuadernos y fuentes sin embeddings
+## Fase 2 — Cuadernos y fuentes
 
-Estado: **en progreso**.
+Estado: **en progreso**. El flujo de texto pegado está implementado y verificado de
+extremo a extremo: crea una fuente y un trabajo idempotente, normaliza y divide el
+contenido, genera embeddings remotos, persiste chunks y alcanza `ready`. El
+propietario completó el smoke test visible y confirmó los chunks en Supabase.
 
-- CRUD mínimo de cuadernos.
-- Bucket privado y políticas por propietario.
-- Subida TXT/MD/PDF y entrada de texto pegado.
-- Estados de procesamiento e idempotencia.
-- Servicio de ingesta ejecutado por el backend de Next.js, sin worker independiente.
-- Límites conservadores de tamaño, páginas, chunks y tiempo de procesamiento.
-- Implementar y probar los valores de `docs/limits.md` desde una configuración única.
-- Extracción y vista previa de texto; rechazo claro de PDF escaneado.
-- Eliminación completa y reintentos.
+Implementado:
+
+- CRUD inicial de cuadernos y navegación a la ingesta.
+- Bucket privado, RLS y políticas de Storage por propietario.
+- Entrada de texto pegado con límites centralizados, hash e idempotencia.
+- Estados persistidos `pending` → `processing` → `ready` para texto pegado.
+- Servicio de ingesta desacoplado, ejecutado por Server Actions de Next.js.
+- Normalización y chunking determinista inicial con títulos, párrafos y solapamiento.
+- Embeddings OpenRouter en lotes con prefijo `passage:`, timeout y clasificación de
+  errores recuperables.
+- Persistencia transaccional de chunks `halfvec(2048)`, modelo efectivo y versión de
+  pipeline mediante una función `security invoker` que valida el propietario.
+- Pruebas unitarias de normalización, chunking, idempotencia y contrato del proveedor.
+
+Pendiente en esta fase:
+
+- Subida y validación real de archivos TXT, MD y PDF.
+- Extracción de texto y ubicación por sección/página; rechazo claro de PDF escaneado.
+- Procesamiento secuencial de hasta tres archivos seleccionados.
+- Completar estados de error, reintento y cancelación en UI y servicio.
+- Eliminación completa de original, texto, chunks, embeddings y derivados.
+- Completar cuotas por usuario y todos los límites de `docs/limits.md`.
 
 Criterio: cada formato aprobado llega a `ready` o a un error accionable.
 
 ## Fase 3 — Indexación
 
-- Chunker determinista con metadatos de página/sección.
-- Integración de embeddings OpenRouter.
-- Confirmar dimensión real y estrategia `halfvec`/truncado.
-- Persistencia de versión de pipeline.
-- HNSW y consulta de similitud filtrada.
+Estado: **iniciada parcialmente por el flujo de texto pegado**. El chunker, la
+integración de embeddings y la persistencia vectorial ya existen para `pasted_text`;
+la recuperación y su evaluación permanecen pendientes.
+
+- Extender metadatos del chunker a páginas y secciones extraídas de archivos.
+- Implementado: embeddings OpenRouter para documentos con prefijo `passage:`.
+- Implementado: dimensión 2048, normalización y persistencia `halfvec(2048)`.
+- Implementado: versión de pipeline y modelo efectivo por chunk.
+- HNSW creado; falta implementar y probar la consulta de similitud filtrada.
 - Full Text Search y búsqueda híbrida con RRF.
 
 Criterio: preguntas de prueba recuperan el fragmento esperado y jamás cruzan usuario
