@@ -7,9 +7,11 @@ Arquitectura de referencia para el MVP, **implementada parcialmente**.
 Implementado y verificado: autenticación y aislamiento RLS, cuadernos, esquema y
 Storage privado, el pipeline completo de texto pegado y TXT/MD/PDF desde `pending`
 hasta `ready`, extracción de páginas, chunking, embeddings OpenRouter, persistencia
-transaccional en `halfvec(2048)` y gestión completa de la fuente. La aceptación de
-fase 2 requiere todavía completar su matriz visible. Pendientes de producto:
-recuperación híbrida, chat RAG y capacidades posteriores de `implementation-plan.md`.
+transaccional en `halfvec(2048)` y gestión completa de la fuente. Fase 2 fue aceptada
+con una matriz visible aún pendiente de evidencia individual. Implementado y
+verificado además: embedding de consulta con prefijo `query:`, recuperación semántica
+por coseno, FTS y fusión RRF con alcance filtrado dentro de SQL. Pendientes de
+producto: chat RAG y capacidades posteriores de `implementation-plan.md`.
 
 ## Componentes
 
@@ -108,6 +110,11 @@ Guardar por fuente y chunk: proveedor, modelo exacto, dimensión, normalización
 fecha, versión lógica del pipeline y estrategia de chunking.
 
 ## Recuperación
+
+Estado: **implementada en Fase 3** hasta la construcción de contexto; no incluye
+generación. La RPC `hybrid_search_chunks` es `security invoker`, obtiene el propietario
+de `auth.uid()` y aplica propietario, cuaderno, fuentes seleccionadas y estado `ready`
+antes de calcular los dos rankings.
 
 1. Embedding de consulta con el mismo modelo/espacio vectorial.
 2. Búsqueda semántica por coseno.

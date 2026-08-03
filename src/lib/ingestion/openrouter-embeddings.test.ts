@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { EMBEDDING_DIMENSIONS, EmbeddingProviderError, embedPassages } from "./openrouter-embeddings";
+import { EMBEDDING_DIMENSIONS, EmbeddingProviderError, embedPassages, embedQuery } from "./openrouter-embeddings";
 
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 
@@ -31,5 +31,16 @@ describe("embedPassages", () => {
     vi.stubGlobal("fetch", fetchMock);
     await expect(embedPassages(["texto"])).rejects.toEqual(expect.objectContaining<Partial<EmbeddingProviderError>>({ code: "embedding_http_401", retryable: false }));
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("embedQuery", () => {
+  it("uses the query prefix and returns the effective model", async () => {
+    vi.stubEnv("OPENROUTER_API_KEY", "test-key");
+    const vector = Array(EMBEDDING_DIMENSIONS).fill(0);
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({ model: "effective-model", data: [{ index: 0, embedding: vector }] }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    await expect(embedQuery("búsqueda híbrida")).resolves.toEqual({ vector, effectiveModel: "effective-model" });
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body as string).input).toEqual(["query: búsqueda híbrida"]);
   });
 });

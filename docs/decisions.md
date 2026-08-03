@@ -20,6 +20,8 @@
 - Despliegue aprobado en Vercel; el propietario creará y conectará el proyecto.
 - Si principal y fallback no están disponibles, mostrar error recuperable sin inventar
   respuesta, conservar la pregunta y permitir reintentar.
+- Recuperación híbrida con rankings semántico y léxico fusionados mediante Reciprocal
+  Rank Fusion; filtros de propietario y alcance se aplican dentro de SQL.
 
 ### Diseño
 
@@ -42,7 +44,6 @@
 
 ## Propuestas actuales
 
-- Búsqueda híbrida con Reciprocal Rank Fusion.
 - Validación manual por afirmaciones reservada para una iteración futura.
 - Embeddings `nvidia/nemotron-3-embed-1b:free` mediante OpenRouter.
 - `halfvec(2048)` + HNSW coseno si el modelo devuelve 2048 dimensiones sin opción
