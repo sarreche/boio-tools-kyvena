@@ -76,16 +76,20 @@ Criterio: cada formato aprobado llega a `ready` o a un error accionable.
 
 ## Fase 3 — Indexación
 
-Estado: **iniciada parcialmente por el flujo de texto pegado**. El chunker, la
-integración de embeddings y la persistencia vectorial ya existen para `pasted_text`;
-la recuperación y su evaluación permanecen pendientes.
+Estado: **implementada técnicamente**. El chunker, embeddings documentales y
+persistencia vectorial provienen de Fase 2. Fase 3 agrega embedding de consultas,
+recuperación híbrida filtrada, RRF, presupuesto de contexto y evaluación reproducible.
 
 - Extender metadatos del chunker a páginas y secciones extraídas de archivos.
 - Implementado: embeddings OpenRouter para documentos con prefijo `passage:`.
 - Implementado: dimensión 2048, normalización y persistencia `halfvec(2048)`.
 - Implementado: versión de pipeline y modelo efectivo por chunk.
-- HNSW creado; falta implementar y probar la consulta de similitud filtrada.
-- Full Text Search y búsqueda híbrida con RRF.
+- Implementado: consulta coseno sobre `halfvec(2048)` y FTS `simple`; los índices
+  HNSW y GIN existentes quedan disponibles para la evolución del corpus.
+- Implementado: filtros SQL obligatorios, RRF, candidatos 20+20, diversidad por fuente
+  y presupuesto máximo de 10 chunks / 6.000 tokens estimados.
+- Implementado: prueba SQL negativa con dos usuarios y rollback de fixtures; contratos
+  unitarios de prefijo y selección de contexto.
 
 Criterio: preguntas de prueba recuperan el fragmento esperado y jamás cruzan usuario
 o cuaderno.

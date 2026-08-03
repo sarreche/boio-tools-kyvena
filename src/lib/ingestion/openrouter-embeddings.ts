@@ -35,6 +35,17 @@ export async function embedPassages(passages: string[]) {
   return { vectors, effectiveModel };
 }
 
+export async function embedQuery(query: string) {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) throw new EmbeddingProviderError("embedding_configuration_error", false);
+  const response = await requestBatch(apiKey, [`query: ${query}`], Date.now() + INGESTION_LIMITS.providerTimeoutMs);
+  const item = response.data?.find(candidate => candidate.index === 0);
+  if (!item || item.embedding.length !== EMBEDDING_DIMENSIONS || item.embedding.some(value => !Number.isFinite(value))) {
+    throw new EmbeddingProviderError("invalid_embedding_dimensions", true);
+  }
+  return { vector: item.embedding, effectiveModel: response.model ?? EMBEDDING_MODEL };
+}
+
 async function requestBatch(apiKey: string, input: string[], deadline: number): Promise<EmbeddingResponse> {
   for (let attempt = 0; attempt < 2; attempt++) {
     const remainingMs = deadline - Date.now();

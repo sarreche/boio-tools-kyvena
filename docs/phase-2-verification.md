@@ -47,3 +47,10 @@ Para una retirada comprobar que no quedan objeto, fuente, trabajo ni chunks.
 
 Registrar fecha, navegador, formatos probados y cualquier incidencia al ejecutar la
 regresión completa. Una incidencia reabre Fase 2 antes de continuar con Fase 3.
+
+## Regresión previa a Fase 3 — 3 de agosto de 2026
+
+- Automatizada: 16/16 pruebas de Fase 2 pasaron antes de modificar indexación
+  (extracción, chunking, embeddings y servicio de ingesta).
+- Matriz visible: continúa pendiente de evidencia individual y no se marcaron casillas.
+- Incidencias de Fase 2 encontradas en esta ejecución: ninguna.

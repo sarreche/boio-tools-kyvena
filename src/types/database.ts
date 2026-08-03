@@ -458,6 +458,31 @@ export type Database = {
         }
         Returns: undefined
       }
+      hybrid_search_chunks: {
+        Args: {
+          p_lexical_limit?: number
+          p_notebook_id: string
+          p_query_embedding: string
+          p_query_text: string
+          p_rrf_k?: number
+          p_semantic_limit?: number
+          p_source_ids: string[]
+        }
+        Returns: {
+          chunk_id: number
+          content: string
+          lexical_rank: number | null
+          lexical_score: number | null
+          location: Json
+          ordinal: number
+          rrf_score: number
+          semantic_rank: number | null
+          semantic_score: number | null
+          source_id: string
+          source_title: string
+          token_count: number
+        }[]
+      }
       requeue_source_ingestion: {
         Args: {
           p_daily_limit?: number
