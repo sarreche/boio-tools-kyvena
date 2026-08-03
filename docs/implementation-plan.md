@@ -34,10 +34,14 @@ Criterio: un usuario autenticado entra a Home y otro usuario no puede ver sus da
 
 ## Fase 2 — Cuadernos y fuentes
 
-Estado: **en progreso**. El flujo de texto pegado está implementado y verificado de
-extremo a extremo: crea una fuente y un trabajo idempotente, normaliza y divide el
-contenido, genera embeddings remotos, persiste chunks y alcanza `ready`. El
-propietario completó el smoke test visible y confirmó los chunks en Supabase.
+Estado: **completada**. Texto pegado y
+archivos TXT/MD/PDF atraviesan el mismo pipeline hasta `ready` o un error accionable.
+La transferencia binaria va directamente al bucket privado para respetar el límite
+de 4,5 MB de Vercel Functions; validación, extracción, chunking y embeddings siguen
+en el backend de Next.js. La base remota, migraciones, asesores y contratos atómicos
+fueron verificados. El propietario realizó pruebas visibles parciales y aceptó el
+cierre el 3 de agosto de 2026. La matriz completa de `phase-2-verification.md` se
+conserva como regresión obligatoria antes de iniciar el trabajo de Fase 3.
 
 Implementado:
 
@@ -52,15 +56,21 @@ Implementado:
 - Persistencia transaccional de chunks `halfvec(2048)`, modelo efectivo y versión de
   pipeline mediante una función `security invoker` que valida el propietario.
 - Pruebas unitarias de normalización, chunking, idempotencia y contrato del proveedor.
+- Subida secuencial de hasta tres TXT/MD/PDF mediante Storage privado, sin pasar el
+  binario por una Vercel Function.
+- Validación de nombre, extensión, tamaño, firma PDF, UTF-8 y límites de extracción.
+- Extracción TXT/MD y PDF página a página; ubicaciones de chunk por sección o página.
+- Rechazo accionable de PDF sin capa de texto, ya que OCR está fuera del MVP.
+- Reserva atómica con límites de 10 cuadernos, 20 fuentes por cuaderno, 75 fuentes y
+  50 MB de originales por usuario, más cuota diaria configurable.
+- Una sola ingesta activa por usuario y recuperación de trabajos abandonados.
+- Reintento de errores recuperables, reprocesamiento de fuentes listas y máximo de
+  tres intentos sobre el mismo trabajo idempotente.
+- Cancelación de pendientes y retirada completa mediante Storage API seguida de
+  borrado en cascada de texto, trabajos, chunks y embeddings.
+- Estados, errores y acciones de fuente en español e inglés.
 
-Pendiente en esta fase:
-
-- Subida y validación real de archivos TXT, MD y PDF.
-- Extracción de texto y ubicación por sección/página; rechazo claro de PDF escaneado.
-- Procesamiento secuencial de hasta tres archivos seleccionados.
-- Completar estados de error, reintento y cancelación en UI y servicio.
-- Eliminación completa de original, texto, chunks, embeddings y derivados.
-- Completar cuotas por usuario y todos los límites de `docs/limits.md`.
+Seguimiento: repetir la matriz completa de regresión antes de implementar Fase 3.
 
 Criterio: cada formato aprobado llega a `ready` o a un error accionable.
 

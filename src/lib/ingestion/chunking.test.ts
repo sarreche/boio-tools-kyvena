@@ -21,3 +21,14 @@ describe("prepareChunks", () => {
     expect(chunks.map(chunk => chunk.ordinal)).toEqual(chunks.map((_, index) => index));
   });
 });
+
+describe("file locations", () => {
+  it("keeps PDF page boundaries in chunk metadata", () => {
+    const chunks = prepareChunks("Primera página con evidencia.\n\f\nSegunda página con otra evidencia.");
+    expect(chunks.map(chunk => chunk.location.page)).toEqual([1, 2]);
+  });
+  it("rejects sources that exceed the chunk limit", () => {
+    const content = Array.from({ length: 151 }, (_, index) => `${index} ${"x".repeat(1600)}`).join("\n\n");
+    expect(() => prepareChunks(content)).toThrowError(expect.objectContaining({ code: "too_many_chunks" }));
+  });
+});

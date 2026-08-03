@@ -20,8 +20,10 @@ export async function createNotebook(formData: FormData) {
   const ownerId = claimsData?.claims?.sub;
   if (!ownerId) redirect("/login");
 
-  const { error } = await supabase.from("notebooks").insert({ owner_id: ownerId, name });
+  const { data, error } = await supabase.rpc("create_owned_notebook", { p_name: name });
   if (error) throw new Error("Unable to create notebook");
+  const result = data as { status?: string; code?: string };
+  if (result.status === "error") redirect(`/notebooks/new?lang=${locale}&error=${result.code}`);
   revalidatePath("/notebooks");
   redirect(`/notebooks?lang=${locale}`);
 }

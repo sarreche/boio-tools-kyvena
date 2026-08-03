@@ -59,6 +59,8 @@ a { color: inherit; }
 .app-header { min-height: 5rem; border-bottom: 1px solid var(--line); background: white; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(1.25rem,4vw,4rem); }
 .header-actions { display: flex; align-items: center; gap: .8rem; }
 .ghost-button { min-height: 44px; border: 1px solid var(--line); border-radius: .7rem; background: white; padding: .6rem 1rem; font-weight: 700; cursor: pointer; }
+.danger-button { min-height: 44px; border: 1px solid #d7a5a5; border-radius: .7rem; background: white; color: #9f2020; padding: .6rem 1rem; font-weight: 700; cursor: pointer; }
+.ghost-button:disabled, .danger-button:disabled { opacity: .55; cursor: wait; }
 .home-main { width: min(100% - 2rem, 76rem); margin: 0 auto; padding: 4rem 0; }
 .home-heading { display: flex; justify-content: space-between; gap: 2rem; align-items: end; }
 .home-heading h1 { margin: 0; font-size: clamp(2.4rem,5vw,4rem); letter-spacing: -.05em; }
@@ -71,6 +73,7 @@ a { color: inherit; }
 .source-list { display: grid; gap: .75rem; }
 .source-list article { display: grid; gap: .3rem; padding: 1rem; border: 1px solid var(--line); border-radius: .8rem; }
 .source-list span { color: var(--muted); font-size: .875rem; }
+.source-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .35rem; }
 
 .request-shell { min-height: 100vh; }
 .request-main { width: min(100% - 2rem, 68rem); margin: 0 auto; padding: 4rem 0; display: grid; grid-template-columns: .8fr 1.2fr; gap: 4rem; }
