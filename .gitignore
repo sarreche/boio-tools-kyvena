@@ -1,0 +1,21 @@
+# Local environment files and secrets
+.env
+.env.local
+.env.*.local
+
+# Keep documented placeholders versioned
+!.env.example
+
+# Next.js and dependencies
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# Local Supabase state
+.supabase/
+supabase/.temp/
+
+# Logs and editor files
+*.log
+.DS_Store
