@@ -33,7 +33,7 @@ export default async function NotebooksPage({ searchParams }: { searchParams: Pr
         </div>
         {notebooks.length ? (
           <div className="empty-state" style={{ display: "block", textAlign: "left" }}>
-            {notebooks.map((notebook) => <article key={notebook.id}><BookOpen size={24} color="#1261ff" /><h2>{notebook.name}</h2></article>)}
+            {notebooks.map((notebook) => <article key={notebook.id}><BookOpen size={24} color="#1261ff" /><h2><Link href={`/notebooks/${notebook.id}?lang=${locale}`}>{notebook.name}</Link></h2></article>)}
           </div>
         ) : (
           <section className="empty-state"><div className="empty-state-inner"><div className="empty-state-icon"><BookOpen size={35} weight="duotone" /></div><h2>{t.emptyTitle}</h2><p>{t.emptyBody}</p></div></section>
