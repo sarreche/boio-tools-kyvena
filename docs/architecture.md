@@ -2,7 +2,13 @@
 
 ## Estado
 
-Arquitectura de referencia para el MVP; todavía no implementada.
+Arquitectura de referencia para el MVP, **implementada parcialmente**.
+
+Implementado y verificado: autenticación y aislamiento RLS, cuadernos, esquema y
+Storage privado, y el pipeline completo de texto pegado desde `pending` hasta `ready`
+con normalización, chunking, embeddings OpenRouter y persistencia transaccional en
+`halfvec(2048)`. Pendiente: ingesta de TXT/MD/PDF, recuperación híbrida, chat RAG y
+las capacidades posteriores detalladas en `implementation-plan.md`.
 
 ## Componentes
 
@@ -70,7 +76,9 @@ la API crea el trabajo y el worker reclama las mismas etapas persistidas.
 
 ## Embeddings
 
-Proveedor inicial propuesto: OpenRouter.
+Proveedor implementado actualmente para embeddings: OpenRouter. La posibilidad de
+sustituirlo y su permanencia como proveedor del MVP se mantienen como decisión de
+producto revisable.
 
 - Modelo preferido actual: `nvidia/nemotron-3-embed-1b:free`.
 - Salida nativa: 2048 dimensiones.
