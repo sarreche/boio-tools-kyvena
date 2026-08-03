@@ -34,13 +34,14 @@ Criterio: un usuario autenticado entra a Home y otro usuario no puede ver sus da
 
 ## Fase 2 — Cuadernos y fuentes
 
-Estado: **implementación completada; aceptación visible pendiente**. Texto pegado y
+Estado: **completada**. Texto pegado y
 archivos TXT/MD/PDF atraviesan el mismo pipeline hasta `ready` o un error accionable.
 La transferencia binaria va directamente al bucket privado para respetar el límite
 de 4,5 MB de Vercel Functions; validación, extracción, chunking y embeddings siguen
 en el backend de Next.js. La base remota, migraciones, asesores y contratos atómicos
-fueron verificados. Falta que el propietario complete la matriz visible de
-`phase-2-verification.md` antes de cambiar el estado a **completada**.
+fueron verificados. El propietario realizó pruebas visibles parciales y aceptó el
+cierre el 3 de agosto de 2026. La matriz completa de `phase-2-verification.md` se
+conserva como regresión obligatoria antes de iniciar el trabajo de Fase 3.
 
 Implementado:
 
@@ -69,9 +70,7 @@ Implementado:
   borrado en cascada de texto, trabajos, chunks y embeddings.
 - Estados, errores y acciones de fuente en español e inglés.
 
-Pendiente de aceptación:
-
-- Completar y registrar el smoke test visible de `phase-2-verification.md`.
+Seguimiento: repetir la matriz completa de regresión antes de implementar Fase 3.
 
 Criterio: cada formato aprobado llega a `ready` o a un error accionable.
 

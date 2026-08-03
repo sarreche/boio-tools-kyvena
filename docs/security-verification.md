@@ -49,3 +49,5 @@ Proyecto verificado: `boio-tools-kyvena`.
   aceptada de protección de contraseñas filtradas.
 - Asesor de rendimiento: sólo índices todavía sin uso, esperables antes de fase 3.
 - La aceptación visible se registra por separado en `phase-2-verification.md`.
+- El propietario aceptó el cierre de Fase 2 tras pruebas visibles parciales el 3 de
+  agosto de 2026; la matriz completa se repetirá como regresión antes de Fase 3.

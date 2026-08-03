@@ -2,8 +2,10 @@
 
 ## Estado
 
-Implementación técnica y base remota verificadas el 3 de agosto de 2026. La fase no
-se marcará **completada** hasta que el propietario confirme esta matriz visible.
+Fase **completada y aceptada por el propietario** el 3 de agosto de 2026 después de
+pruebas visibles parciales y de la verificación técnica automatizada y transaccional.
+La matriz completa queda pendiente como regresión obligatoria antes de comenzar la
+implementación de Fase 3; sus casillas no se marcan sin evidencia individual.
 
 ## Preparación
 
@@ -43,5 +45,5 @@ Para una retirada comprobar que no quedan objeto, fuente, trabajo ni chunks.
 
 ## Cierre
 
-Registrar fecha, navegador, formatos probados y cualquier incidencia. Tras confirmar
-todas las casillas, cambiar Fase 2 a **completada** antes de iniciar Fase 3.
+Registrar fecha, navegador, formatos probados y cualquier incidencia al ejecutar la
+regresión completa. Una incidencia reabre Fase 2 antes de continuar con Fase 3.
