@@ -377,6 +377,7 @@ export type Database = {
           error_code: string | null
           error_detail: string | null
           extracted_characters: number | null
+          extracted_text: string | null
           id: string
           kind: Database["public"]["Enums"]["source_kind"]
           mime_type: string | null
@@ -395,6 +396,7 @@ export type Database = {
           error_code?: string | null
           error_detail?: string | null
           extracted_characters?: number | null
+          extracted_text?: string | null
           id?: string
           kind: Database["public"]["Enums"]["source_kind"]
           mime_type?: string | null
@@ -413,6 +415,7 @@ export type Database = {
           error_code?: string | null
           error_detail?: string | null
           extracted_characters?: number | null
+          extracted_text?: string | null
           id?: string
           kind?: Database["public"]["Enums"]["source_kind"]
           mime_type?: string | null
@@ -439,7 +442,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      finalize_source_ingestion: {
+        Args: {
+          p_chunks: Json
+          p_embedding_model: string
+          p_embedding_provider: string
+          p_job_id: string
+          p_notebook_id: string
+          p_pipeline_version: string
+          p_source_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       ingestion_stage:
