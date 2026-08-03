@@ -34,7 +34,7 @@ export class SupabaseIngestionRepository implements IngestionRepository {
     const payload = chunks.map((chunk, index) => ({ ...chunk, embedding: vectors[index] }));
     const { error } = await this.client.rpc("finalize_source_ingestion", {
       p_job_id: job.id, p_source_id: job.sourceId, p_notebook_id: job.notebookId, p_chunks: payload,
-      p_embedding_provider: EMBEDDING_PROVIDER, p_embedding_model: effectiveModel || EMBEDDING_MODEL, p_pipeline_version: "pasted-text-v1",
+      p_embedding_provider: EMBEDDING_PROVIDER, p_embedding_model: effectiveModel || EMBEDDING_MODEL, p_pipeline_version: "source-v1",
     });
     if (error) throw error;
   }

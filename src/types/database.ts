@@ -442,6 +442,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_owned_notebook: {
+        Args: { p_name: string }
+        Returns: Json
+      }
       finalize_source_ingestion: {
         Args: {
           p_chunks: Json
@@ -453,6 +457,27 @@ export type Database = {
           p_source_id: string
         }
         Returns: undefined
+      }
+      requeue_source_ingestion: {
+        Args: {
+          p_daily_limit?: number
+          p_notebook_id: string
+          p_source_id: string
+        }
+        Returns: Json
+      }
+      reserve_ingestion_source: {
+        Args: {
+          p_byte_size?: number | null
+          p_content_hash: string
+          p_daily_limit?: number
+          p_extracted_text?: string | null
+          p_kind: Database["public"]["Enums"]["source_kind"]
+          p_mime_type?: string | null
+          p_notebook_id: string
+          p_title: string
+        }
+        Returns: Json
       }
     }
     Enums: {
